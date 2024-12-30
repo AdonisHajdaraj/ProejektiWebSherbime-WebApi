@@ -1,0 +1,108 @@
+openapi: 3.0.0
+info:
+  title: API për Lëndët
+  description: API për menaxhimin e lëndëve.
+  version: 1.0.0
+servers:
+  - url: http://localhost:3001
+    description: Server lokal
+
+paths:
+  /v1/lendet:
+    get:
+      summary: Merr të gjitha lëndët
+      operationId: getLendet
+      responses:
+        '200':
+          description: Lista e lëndëve është marrë me sukses
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    lenda:
+                      type: string
+        '500':
+          description: Gabim gjatë marrjes së të dhënave nga databaza
+          
+    post:
+      summary: Shto një lëndë të re
+      operationId: postLenda
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                lenda:
+                  type: string
+      responses:
+        '201':
+          description: Lenda është shtuar me sukses
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  lenda:
+                    type: string
+        '500':
+          description: Gabim në shtimin e lëndës
+
+  /v1/lendet/{id}:
+    put:
+      summary: Përditëso një lëndë ekzistuese
+      operationId: putLenda
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID e lëndës që duhet të përditësohet
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                lenda:
+                  type: string
+      responses:
+        '200':
+          description: Lenda është përditësuar me sukses
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  lenda:
+                    type: string
+        '500':
+          description: Gabim në përditësimin e lëndës
+
+    delete:
+      summary: Fshij një lëndë
+      operationId: deleteLenda
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID e lëndës që duhet të fshihet
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Lenda është fshirë me sukses
+        '500':
+          description: Gabim në fshirjen e lëndës
